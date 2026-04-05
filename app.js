@@ -450,6 +450,7 @@ function checkBadges(xp) {
 }
 function updateXPDisplay() {
   const el = document.getElementById('xpDisplay');
+  if (!el) return;
   if (el) el.textContent = `${T[lang].xpLabel}: ${getXP()} XP`;
 }
 
@@ -498,7 +499,9 @@ document.addEventListener('DOMContentLoaded', () => {
 function initSplash() {
   let count = 5;
   const el = document.getElementById('splashCount');
+  if (!el) return;
   const featuresEl = document.getElementById('splashFeatures');
+  if (!featuresEl) return;
   if (featuresEl) {
     featuresEl.innerHTML = T[lang].splashFeatures.map((f, i) =>
       `<div class="splash-feature" style="animation-delay:${0.3 + i * 0.3}s">${f}</div>`
@@ -512,6 +515,7 @@ function initSplash() {
 }
 function dismissSplash() {
   const s = document.getElementById('splash');
+  if (!s) return;
   if (s) { s.classList.add('hidden'); setTimeout(() => s.style.display = 'none', 500); }
   playSound('click');
 }
@@ -538,6 +542,7 @@ function setLang(l) {
   renderHome(); renderPillars(); renderHeart(); renderQuiz(); renderBuild(); renderAbout(); renderHelp(); renderDuas();
   updateXPDisplay();
   const featuresEl = document.getElementById('splashFeatures');
+  if (!featuresEl) return;
   if (featuresEl) {
     featuresEl.innerHTML = T[l].splashFeatures.map((f, i) =>
       `<div class="splash-feature" style="animation-delay:${0.3 + i * 0.3}s">${f}</div>`
@@ -552,6 +557,7 @@ function setTheme(t) {
   localStorage.setItem('ri-theme', t);
   const idx = themes.indexOf(t);
   const el = document.getElementById('themeIcon');
+  if (!el) return;
   if (el) el.textContent = themeIcons[idx];
 }
 function cycleTheme() {
@@ -624,6 +630,7 @@ function renderPillars() {
   const t = T[lang];
   const lit = getLitPillars();
   const container = document.getElementById('pillarsContainer');
+  if (!container) return;
   container.innerHTML = `
     <div class="search-bar"><span class="search-icon">🔍</span><input class="search-input" id="pillarsSearch" placeholder="${t.searchPlaceholder}" oninput="filterPillars(this.value)"></div>
   ` + PILLARS.map((p, i) => {
@@ -715,6 +722,7 @@ function sharePillar(i) {
 function renderHeart() {
   const t = T[lang];
   const container = document.getElementById('heartContainer');
+  if (!container) return;
   container.innerHTML = INSIGHTS.map(ins => {
     const d = ins[lang];
     return `
@@ -742,6 +750,7 @@ let quizState = { current: 0, score: 0, lifelines: { fifty: true, hint: true, sh
 function renderQuiz() {
   quizState = { current: 0, score: 0, lifelines: { fifty: true, hint: true, sheikh: true }, answered: false };
   const container = document.getElementById('quizContainer');
+  if (!container) return;
   document.getElementById('quizResult').classList.add('hidden');
   renderQuizQuestion();
 }
@@ -749,6 +758,7 @@ function renderQuiz() {
 function renderQuizQuestion() {
   const t = T[lang];
   const container = document.getElementById('quizContainer');
+  if (!container) return;
   const qi = quizState.current;
   if (qi >= QUIZ_DATA.length) { showQuizResult(); return; }
   const q = QUIZ_DATA[qi][lang];
@@ -804,6 +814,7 @@ function answerQuiz(idx) {
 
 function showQuizFeedback(msg, isCorrect) {
   const fb = document.getElementById('quizFeedback');
+  if (!fb) return;
   if (fb) {
     fb.classList.remove('hidden');
     fb.className = `quiz-feedback ${isCorrect ? 'feedback-correct' : 'feedback-wrong'}`;
@@ -848,8 +859,10 @@ function useSheikh() {
 function showQuizResult() {
   const t = T[lang];
   const container = document.getElementById('quizContainer');
+  if (!container) return;
   container.innerHTML = '';
   const result = document.getElementById('quizResult');
+  if (!result) return;
   result.classList.remove('hidden');
   const pct = Math.round(quizState.score / QUIZ_DATA.length * 100);
   let emoji, title;
@@ -874,6 +887,7 @@ function renderBuild() {
   const t = T[lang];
   const lit = getLitPillars();
   const container = document.getElementById('buildContainer');
+  if (!container) return;
   const pct = PILLARS.length > 0 ? Math.round(lit.length / PILLARS.length * 100) : 0;
   container.innerHTML = `
     <div class="build-progress">
@@ -1040,8 +1054,10 @@ function initKeyboardNav() {
   document.addEventListener('keydown', (e) => {
     if (e.key === 'Escape') {
       const helpPanel = document.getElementById('helpPanel');
+      if (!helpPanel) return;
       if (!helpPanel.classList.contains('hidden')) { toggleHelp(); return; }
       const duaPanel = document.getElementById('duaPanel');
+      if (!duaPanel) return;
       if (!duaPanel.classList.contains('hidden')) { toggleDuaPanel(); return; }
       document.querySelectorAll('.pillar-card.open').forEach(c => c.classList.remove('open'));
     }
@@ -1059,11 +1075,14 @@ function toggleDuaPanel() {
 }
 function showToast(msg) {
   const t = document.getElementById('toast');
+  if (!t) return;
   const m = document.getElementById('toastMsg');
+  if (!m) return;
   if (t && m) { m.textContent = msg; t.style.display = 'block'; setTimeout(() => t.style.display = 'none', 2500); }
 }
 function initScrollTop() {
   const btn = document.getElementById('scrollTop');
+  if (!btn) return;
   window.addEventListener('scroll', () => {
     if (btn) btn.classList.toggle('visible', window.scrollY > 300);
   });
