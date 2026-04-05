@@ -594,13 +594,13 @@ function renderHome() {
   const daily = PILLARS[Math.floor(Math.random() * PILLARS.length)];
   const d = daily[lang];
   const lit = getLitPillars();
-  document.getElementById('dailyCard').innerHTML = `
+  (document.getElementById('dailyCard')||{}).innerHTML= `
     <div class="daily-label">✨ ${lang === 'ar' ? 'ركيزة اليوم' : lang === 'fr' ? 'Pilier du Jour' : 'Pillar of the Day'}</div>
     <div class="daily-title">${d.title}</div>
     <div class="daily-body">${ageMode === 'young' ? d.young : d[lang === 'ar' ? 'heart' : 'heart']}</div>
     <div class="daily-action" onclick="switchTab('pillars')">${t.pillarsTitle} &rarr;</div>
   `;
-  document.getElementById('homeGrid').innerHTML = `
+  (document.getElementById('homeGrid')||{}).innerHTML= `
     <div class="home-card" onclick="switchTab('pillars')"><span class="hc-icon">🏛️</span><div class="hc-title">${t.tabPillars}</div><div class="hc-desc">${lit.length}/${PILLARS.length}</div></div>
     <div class="home-card" onclick="switchTab('heart')"><span class="hc-icon">❤️</span><div class="hc-title">${t.tabHeart}</div><div class="hc-desc">${INSIGHTS.length}</div></div>
     <div class="home-card" onclick="switchTab('quiz')"><span class="hc-icon">🎓</span><div class="hc-title">${t.tabQuiz}</div><div class="hc-desc">${QUIZ_DATA.length} Q</div></div>
@@ -613,6 +613,10 @@ function renderHome() {
 function switchTab(name) {
   const tab = document.querySelector(`.tab[data-tab="${name}"]`);
   if (tab) tab.click();
+  // Auto-render quiz when switching to quiz tab
+  if (name === 'quiz' && document.getElementById('quizContainer') && !document.getElementById('quizContainer').innerHTML.trim()) {
+    renderQuiz();
+  }
 }
 
 // ═══════════════ RENDER: PILLARS ═══════════════
@@ -937,7 +941,7 @@ function renderAbout() {
     }
   };
   const a = about[lang];
-  document.getElementById('aboutContainer').innerHTML = `
+  (document.getElementById('aboutContainer')||{}).innerHTML= `
     <div class="about-disclaimer about-card">
       <div class="about-disclaimer-title">${a.disclaimerTitle}</div>
       <p>${a.disclaimer}</p>
@@ -989,7 +993,7 @@ function renderHelp() {
       {title:'🤝 Contribuer',body:'GitHub : github.com/abourdim/rakaiz-al-iman'},
     ]
   };
-  document.getElementById('helpBody').innerHTML = help[lang].map(h => `
+  (document.getElementById('helpBody')||{}).innerHTML= help[lang].map(h => `
     <div class="help-item">
       <div class="help-item-title">${h.title}</div>
       <div>${h.body}</div>
@@ -999,7 +1003,7 @@ function renderHelp() {
 
 // ═══════════════ RENDER: DUAS ═══════════════
 function renderDuas() {
-  document.getElementById('duaPanelContent').innerHTML = DUAS.map(d => {
+  (document.getElementById('duaPanelContent')||{}).innerHTML= DUAS.map(d => {
     const dd = d[lang];
     return `
     <div class="dua-item">
