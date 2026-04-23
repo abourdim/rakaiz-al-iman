@@ -624,6 +624,7 @@ function renderPillars() {
   const t = T[lang];
   const lit = getLitPillars();
   const container = document.getElementById('pillarsContainer');
+  if (!container) return;
   container.innerHTML = `
     <div class="search-bar"><span class="search-icon">🔍</span><input class="search-input" id="pillarsSearch" placeholder="${t.searchPlaceholder}" oninput="filterPillars(this.value)"></div>
   ` + PILLARS.map((p, i) => {
@@ -714,6 +715,7 @@ function sharePillar(i) {
 function renderHeart() {
   const t = T[lang];
   const container = document.getElementById('heartContainer');
+  if (!container) return;
   container.innerHTML = INSIGHTS.map(ins => {
     const d = ins[lang];
     return `
@@ -741,6 +743,7 @@ let quizState = { current: 0, score: 0, lifelines: { fifty: true, hint: true, sh
 function renderQuiz() {
   quizState = { current: 0, score: 0, lifelines: { fifty: true, hint: true, sheikh: true }, answered: false };
   const container = document.getElementById('quizContainer');
+  if (!container) return;
   document.getElementById('quizResult').classList.add('hidden');
   renderQuizQuestion();
 }
@@ -748,6 +751,7 @@ function renderQuiz() {
 function renderQuizQuestion() {
   const t = T[lang];
   const container = document.getElementById('quizContainer');
+  if (!container) return;
   const qi = quizState.current;
   if (qi >= QUIZ_DATA.length) { showQuizResult(); return; }
   const q = QUIZ_DATA[qi][lang];
@@ -847,6 +851,7 @@ function useSheikh() {
 function showQuizResult() {
   const t = T[lang];
   const container = document.getElementById('quizContainer');
+  if (!container) return;
   container.innerHTML = '';
   const result = document.getElementById('quizResult');
   result.classList.remove('hidden');
@@ -873,6 +878,7 @@ function renderBuild() {
   const t = T[lang];
   const lit = getLitPillars();
   const container = document.getElementById('buildContainer');
+  if (!container) return;
   const pct = PILLARS.length > 0 ? Math.round(lit.length / PILLARS.length * 100) : 0;
   container.innerHTML = `
     <div class="build-progress">
